@@ -33,24 +33,6 @@ class ResponsiveLineDoer(ResponsiveTerminalApplication):
         print(self.get_line())
 
 
-class ResponsiveWave1(ResponsiveLineDoer):
-    a = '_'
-    b = 'X'
-    c = '|'
-
-    def get_line(self):
-        k = math.sin(self.i / 8)
-        n = int(k * (self.columns/2)) + int(self.columns / 2)
-
-        l = math.sin(self.i / 4)
-        m = int(l * (self.columns/2)) + int(self.columns / 2)
-
-        i, j = sorted([n,m])
-
-        return self.a * i + self.b * (j - i) + self.c * (self.columns - j)
-
-
-
 class ResponsiveWave2(ResponsiveLineDoer):
     # chars, quots = ['_', '.', '-', '\''], [ 8, 16, 4]
 

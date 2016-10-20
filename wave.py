@@ -25,12 +25,20 @@ class ResponsiveTerminalApplication:
             time.sleep(self.quantum)
 
 
-class ResponsiveWave1(ResponsiveTerminalApplication):
+class ResponsiveLineDoer(ResponsiveTerminalApplication):
+    """
+    every n frames per second, print a line returned by the function self.get_line()
+    """
+    def update(self):
+        print(self.get_line())
+
+
+class ResponsiveWave1(ResponsiveLineDoer):
     a = '_'
     b = 'X'
     c = '|'
 
-    def update(self):
+    def get_line(self):
         k = math.sin(self.i / 8)
         n = int(k * (self.columns/2)) + int(self.columns / 2)
 
@@ -39,11 +47,11 @@ class ResponsiveWave1(ResponsiveTerminalApplication):
 
         i, j = sorted([n,m])
 
-        line = self.a * i + self.b * (j - i) + self.c * (self.columns - j)
-        print(line)
+        return self.a * i + self.b * (j - i) + self.c * (self.columns - j)
 
 
-class ResponsiveWave2(ResponsiveTerminalApplication):
+
+class ResponsiveWave2(ResponsiveLineDoer):
     # chars, quots = ['_', '.', '-', '\''], [ 8, 16, 4]
 
     # chars, quots = (['#', '/', '#', '-', '#', '.', '#'],
@@ -52,7 +60,7 @@ class ResponsiveWave2(ResponsiveTerminalApplication):
     chars, quots = (['.', ' ', ',', 'x', '-'],
                     [100, 150, 200, 10])
 
-    def update(self):
+    def get_line(self):
         nums = []
         for q in self.quots:
             k = math.sin(self.i / q) + 1
@@ -68,10 +76,7 @@ class ResponsiveWave2(ResponsiveTerminalApplication):
                 q -= nums[i-1]
             locs.append(q)
 
-        line = ''.join([char * n for char,n in zip(self.chars, locs)])
-        print(line)
-
-
+        return ''.join([char * n for char,n in zip(self.chars, locs)])
 
 
 if __name__=='__main__':

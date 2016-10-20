@@ -1,5 +1,6 @@
 import math
 import os
+import sys
 import time
 
 
@@ -31,6 +32,14 @@ class ResponsivePrintDoer(ResponsiveTerminalApplication):
     """
     def update(self):
         print(self.get_text())
+
+
+class ResponsiveSysStdOutDoer(ResponsiveTerminalApplication):
+    """
+    every n frames per second, print a thing returned by the function self.get_line()
+    """
+    def update(self):
+        sys.stdout.write(self.get_text())
 
 
 class ResponsiveWave2(ResponsivePrintDoer):

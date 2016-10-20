@@ -11,8 +11,9 @@ class ResponsiveTerminalApplication:
     columns = 50
 
 
-    def __init__(self, fps=30):
+    def __init__(self, fps=30, timeout=float('+inf')):
         self.quantum = 1 / fps
+        self.timeout = timeout
 
     def update_dims(self):
         o = os.popen('stty size', 'r').read().split()
@@ -20,7 +21,7 @@ class ResponsiveTerminalApplication:
         self.columns = int(o[1])
 
     def run(self):
-        while True:
+        while self.i < self.timeout:
             self.i += 1
             self.update_dims()
             self.update()
@@ -43,7 +44,7 @@ class ResponsiveSysStdOutDoer(ResponsiveTerminalApplication):
         sys.stdout.write(self.get_text())
 
 
-class ResponsiveWave2(ResponsivePrintDoer):
+class ResponsiveWave(ResponsivePrintDoer):
     # chars, quots = ['_', '.', '-', '\''], [ 8, 16, 4]
 
     # chars, quots = (['#', '/', '#', '-', '#', '.', '#'],
@@ -51,6 +52,16 @@ class ResponsiveWave2(ResponsivePrintDoer):
 
     chars, quots = (['.', ' ', ',', 'x', '-'],
                     [100, 150, 200, 10])
+
+    def __init__(self, *args, **kwargs):
+        chars = kwargs.pop('chars', None)
+        if chars:
+            self.chars = chars
+        quots = kwargs.pop('quots', None)
+        if quots:
+            self.quots = quots
+
+        super().__init__(*args, **kwargs)
 
     def get_text(self):
         nums = []
@@ -91,6 +102,24 @@ class ResponsiveCaveOfDreams(ResponsiveSysStdOutDoer):
 
         return '\n'.join([''.join(l) for l in lines])
 
+playlist = [
+    (ResponsiveWave, {
+        'chars': ['-', ' ', '#'],
+        'quots': [8, 16],
+        'timeout': 30,
+    }),
+    (ResponsiveWave, {
+        'chars': ['-', ' ', '#', '_'],
+        'quots': [8, 16, 2],
+        'timeout': 120,
+    }),
+    (ResponsiveCaveOfDreams, {
+        'timeout': 20,
+    }),
+]
+
 if __name__=='__main__':
-    t = ResponsiveCaveOfDreams(fps=30)
-    t.run()
+    while True:
+        for c, args in playlist:
+            resp_obj = c(**args)
+            resp_obj.run()

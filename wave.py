@@ -25,15 +25,15 @@ class ResponsiveTerminalApplication:
             time.sleep(self.quantum)
 
 
-class ResponsiveLineDoer(ResponsiveTerminalApplication):
+class ResponsivePrintDoer(ResponsiveTerminalApplication):
     """
-    every n frames per second, print a line returned by the function self.get_line()
+    every n frames per second, print a thing returned by the function self.get_line()
     """
     def update(self):
-        print(self.get_line())
+        print(self.get_text())
 
 
-class ResponsiveWave2(ResponsiveLineDoer):
+class ResponsiveWave2(ResponsivePrintDoer):
     # chars, quots = ['_', '.', '-', '\''], [ 8, 16, 4]
 
     # chars, quots = (['#', '/', '#', '-', '#', '.', '#'],
@@ -42,7 +42,7 @@ class ResponsiveWave2(ResponsiveLineDoer):
     chars, quots = (['.', ' ', ',', 'x', '-'],
                     [100, 150, 200, 10])
 
-    def get_line(self):
+    def get_text(self):
         nums = []
         for q in self.quots:
             k = math.sin(self.i / q) + 1

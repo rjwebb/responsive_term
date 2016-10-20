@@ -102,11 +102,12 @@ class ResponsiveCaveOfDreams(ResponsiveSysStdOutDoer):
 
         return '\n'.join([''.join(l) for l in lines])
 
+
 playlist = [
     (ResponsiveWave, {
         'chars': ['-', ' ', '#'],
         'quots': [8, 16],
-        'timeout': 30,
+        'timeout': 120,
     }),
     (ResponsiveWave, {
         'chars': ['-', ' ', '#', '_'],
@@ -116,7 +117,13 @@ playlist = [
     (ResponsiveCaveOfDreams, {
         'timeout': 20,
     }),
+    (ResponsiveWave, {
+        'chars': ['\\', ' ', '/', '_'],
+        'quots': [15, 17, 19],
+        'timeout': 120,
+    }),
 ]
+
 
 if __name__=='__main__':
     while True:

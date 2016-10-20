@@ -1,3 +1,4 @@
+from __future__ import division
 import math
 import os
 import sys
@@ -70,26 +71,25 @@ class ResponsiveWave2(ResponsivePrintDoer):
         return ''.join([char * n for char,n in zip(self.chars, locs)])
 
 class ResponsiveCaveOfDreams(ResponsiveSysStdOutDoer):
+    chars, quots = ['/','\\','#','.'], [1, 2, 5]
+
 
     def get_text(self):
-        k = (math.sin(self.i / 8) + 1) * 100
+        k = (math.sin(self.i / 4) + 1) * 100
 
         lines = []
         for i in range(self.rows):
             l = []
             for j in range(self.columns):
-                q = j * i
-                if q < k:
-                    c = '#'
-                elif q < k * 2:
-                    c = ' '
-                else:
-                    c = '#'
-                l.append(c)
+                e = j * i
+                cc = self.chars[-1]
+                for c, q in zip(self.chars, self.quots):
+                    if e > q*k:
+                        cc = c
+                l.append(cc)
             lines.append(l)
 
         return '\n'.join([''.join(l) for l in lines])
-        #        return '\n'.join([line]*self.rows) + '\n'
 
 if __name__=='__main__':
     t = ResponsiveCaveOfDreams(fps=30)

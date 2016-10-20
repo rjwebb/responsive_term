@@ -69,7 +69,28 @@ class ResponsiveWave2(ResponsivePrintDoer):
 
         return ''.join([char * n for char,n in zip(self.chars, locs)])
 
+class ResponsiveCaveOfDreams(ResponsiveSysStdOutDoer):
+
+    def get_text(self):
+        k = (math.sin(self.i / 8) + 1) * 100
+
+        lines = []
+        for i in range(self.rows):
+            l = []
+            for j in range(self.columns):
+                q = j * i
+                if q < k:
+                    c = '#'
+                elif q < k * 2:
+                    c = ' '
+                else:
+                    c = '#'
+                l.append(c)
+            lines.append(l)
+
+        return '\n'.join([''.join(l) for l in lines])
+        #        return '\n'.join([line]*self.rows) + '\n'
 
 if __name__=='__main__':
-    t = ResponsiveWave2(fps=30)
+    t = ResponsiveCaveOfDreams(fps=30)
     t.run()
